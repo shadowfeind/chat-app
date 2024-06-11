@@ -1,5 +1,6 @@
 "use client";
 
+import { ModeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -42,6 +43,7 @@ const DesktopNav = (props: Props) => {
         </ul>
       </nav>
       <div className="flex flex-col items-center gap-4">
+        <ModeToggle />
         <UserButton />
       </div>
     </Card>
