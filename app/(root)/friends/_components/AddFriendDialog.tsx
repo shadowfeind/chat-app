@@ -26,6 +26,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useMutationState } from "@/hooks/useMutationState";
+import { api } from "@/convex/_generated/api";
+import { toast } from "sonner";
+import { ConvexError } from "convex/values";
 
 type Props = {};
 
@@ -37,6 +41,9 @@ const AddFriendDialogSchema = z.object({
 });
 
 const AddFriendDialog = (props: Props) => {
+  const { mutate: createRequest, pending } = useMutationState(
+    api.request.create
+  );
   const form = useForm<z.infer<typeof AddFriendDialogSchema>>({
     resolver: zodResolver(AddFriendDialogSchema),
     defaultValues: {
@@ -44,7 +51,22 @@ const AddFriendDialog = (props: Props) => {
     },
   });
 
-  const handleSubmit = () => console.log("nicela");
+  const handleSubmit = async (
+    values: z.infer<typeof AddFriendDialogSchema>
+  ) => {
+    await createRequest({
+      email: values.email,
+    })
+      .then(() => {
+        form.reset();
+        toast.success("Friend request sent");
+      })
+      .catch((error) => {
+        toast.error(
+          error instanceof ConvexError ? error.data : "Unexpected error"
+        );
+      });
+  };
   return (
     <Dialog>
       <Tooltip>
@@ -78,7 +100,7 @@ const AddFriendDialog = (props: Props) => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="email" {...item} />
+                    <Input placeholder="johndoe@gmail.com" {...item} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
