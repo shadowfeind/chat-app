@@ -29,14 +29,13 @@ const MobileNav = (props: Props) => {
             <li key={id} className="relative">
               <Link href={path.href}>
                 <Tooltip>
-                  <TooltipTrigger>
-                    <Button
-                      size="icon"
-                      variant={path.active ? "default" : "outline"}
-                    >
-                      {path.icon}
-                    </Button>
-                  </TooltipTrigger>
+                  <Button
+                    size="icon"
+                    variant={path.active ? "default" : "outline"}
+                  >
+                    <TooltipTrigger asChild>{path.icon}</TooltipTrigger>
+                  </Button>
+
                   <TooltipContent>
                     <p>{path.name}</p>
                   </TooltipContent>
