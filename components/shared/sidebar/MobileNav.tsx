@@ -1,6 +1,7 @@
 "use client";
 
 import { ModeToggle } from "@/components/theme-toggle";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -14,9 +15,7 @@ import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import React from "react";
 
-type Props = {};
-
-const MobileNav = (props: Props) => {
+const MobileNav = () => {
   const paths = useNavigation();
   const { isActive } = useConversation();
 
@@ -34,6 +33,11 @@ const MobileNav = (props: Props) => {
                     variant={path.active ? "default" : "outline"}
                   >
                     <TooltipTrigger asChild>{path.icon}</TooltipTrigger>
+                    {path?.count ? (
+                      <Badge className="absolute left-6 bottom-7 px-2">
+                        {path.count}
+                      </Badge>
+                    ) : null}
                   </Button>
 
                   <TooltipContent>

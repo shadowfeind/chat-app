@@ -34,10 +34,7 @@ import { ConvexError } from "convex/values";
 type Props = {};
 
 const AddFriendDialogSchema = z.object({
-  email: z
-    .string()
-    .min(1, { message: "Email is required" })
-    .email("Must be valid email"),
+  email: z.string().email({ message: "Invalid email address" }),
 });
 
 const AddFriendDialog = (props: Props) => {
@@ -67,15 +64,16 @@ const AddFriendDialog = (props: Props) => {
         );
       });
   };
+
   return (
     <Dialog>
       <Tooltip>
         <TooltipTrigger>
-          <Button size={"icon"} variant={"outline"}>
-            <DialogTrigger asChild>
+          <DialogTrigger asChild>
+            <Button size={"icon"} variant={"outline"}>
               <UserPlus />
-            </DialogTrigger>
-          </Button>
+            </Button>
+          </DialogTrigger>
         </TooltipTrigger>
         <TooltipContent>
           <p>Add Friend</p>
@@ -96,19 +94,19 @@ const AddFriendDialog = (props: Props) => {
             <FormField
               control={form.control}
               name="email"
-              render={(item) => (
+              render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="johndoe@gmail.com" {...item} />
+                    <Input placeholder="johndoe@gmail.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
-            ></FormField>
+            />
             <DialogFooter>
-              <Button disabled={false} type="submit">
-                Send
+              <Button disabled={pending} type="submit">
+                {pending ? "Sending..." : "Send"}
               </Button>
             </DialogFooter>
           </form>
